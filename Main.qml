@@ -83,7 +83,7 @@ Window {
         FillContainerTable{
             id: dat2;
             anchors.fill: parent;
-            cellsWidthRatio: [0.5, 1, 1, 1, 1]
+            cellsWidthRatio: [1, 1, 1, 1, 1]
             titleModel:  ListModel{
                 ListElement{
                     name: "Axis"

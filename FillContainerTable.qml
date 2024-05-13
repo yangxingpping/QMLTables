@@ -56,33 +56,40 @@ Rectangle{
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.top: parent.top
-        color: r.headerBorderColor;
+        color: "transparent" // r.headerBorderColor;
         height: r.hhHeigth
-        HorizontalHeaderView {
-            id: horizontalHeader
-            anchors.centerIn: parent
-            width: parent.width - 2 * columnSpacing;
-            height: parent.height - 2 * rowSpacing;
-            syncView: tb
-            interactive: false
-            rowSpacing: 1
-            columnSpacing: 1
+        FluRectangle{
+            radius: [8,8,0,0];
+            anchors.fill: parent
+            color: r.headerBorderColor;
+            HorizontalHeaderView {
+                id: horizontalHeader
+                anchors.centerIn: parent
+                width: parent.width - 2 * columnSpacing;
+                height: parent.height - 2 * rowSpacing;
+                syncView: tb
+                interactive: false
+                rowSpacing: 1
+                columnSpacing: 1
 
-            rowHeightProvider: function(row){
-                return r.hhHeigth;
-            }
-            clip: true
-            model: titleModel
-            delegate: Rectangle {
-                implicitHeight: horizontalHeader.implicitHeight
-                implicitWidth: horizontalHeader.implicitWidth
-                Label {
-                    anchors.fill: parent
-                    text: name
-                    opacity: 1.0
-                    font.bold: true
-                    verticalAlignment: Text.AlignVCenter
-                    horizontalAlignment: Text.AlignHCenter
+                rowHeightProvider: function(row){
+                    return r.hhHeigth;
+                }
+                clip: true
+                model: titleModel
+                delegate: FluRectangle {
+                    implicitHeight: horizontalHeader.implicitHeight
+                    implicitWidth: horizontalHeader.implicitWidth
+                    radius: column === 0 ? [8,0,0,0] : (column===titleModel.count-1 ? [0,8,0,0] : [0,0,0,0])
+                    //radius: 8
+                    Label {
+                        anchors.fill: parent
+                        text: name
+                        opacity: 1.0
+                        font.bold: true
+                        verticalAlignment: Text.AlignVCenter
+                        horizontalAlignment: Text.AlignHCenter
+                    }
                 }
             }
         }
@@ -122,9 +129,8 @@ Rectangle{
             delegate: Rectangle {
                 onHeightChanged: {
                 }
-                implicitWidth: r.cellsWidthRatio.length == 0 ? tb.width / r.titleModel.count : (tb.width * r.cellsWidthRatio[column] / r.cellsWidthRatio.reduce((accumulator, currentValue) => {
-                                                                                        return accumulator + currentValue
-                                                                                      },0));
+
+                implicitWidth: column !== titleModel.count -1 ?  (tb.width - (titleModel.count) * tb.columnSpacing) / titleModel.count : (tb.width - (titleModel.count) * tb.columnSpacing) / titleModel.count + 1;
                 implicitHeight: (tb.height - tbModel.rowCount ) / tbModel.rowCount;
                 Text {
                     text: display
