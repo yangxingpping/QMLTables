@@ -111,57 +111,68 @@ Rectangle{
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.bottom: parent.bottom;
-        color: r.contentBorderColor
-
-        TableView {
-            id: tb
-            anchors.centerIn: parent
-            width: parent.width - 2 * columnSpacing
-            height: parent.height - 2 * rowSpacing
-            interactive: false
-            rowSpacing: 1
-            columnSpacing: 1
-            model: tbModel
-            ScrollBar.vertical: FluScrollBar {
-                policy: ScrollBar.AsNeeded
-            }
-            clip: true
-            delegate: Rectangle {
-                onHeightChanged: {
+        color: "transparent"
+        FluRectangle{
+            anchors.fill: parent
+            radius:[0,0,8,8]
+            color: r.contentBorderColor;
+            TableView {
+                id: tb
+                anchors.centerIn: parent
+                width: parent.width - 2 * columnSpacing
+                height: parent.height - 2 * rowSpacing
+                interactive: false
+                rowSpacing: 1
+                columnSpacing: 1
+                model: tbModel
+                ScrollBar.vertical: FluScrollBar {
+                    policy: ScrollBar.AsNeeded
                 }
+                clip: true
+                delegate: Rectangle {
+                    id: cell
+                    implicitWidth: column !== titleModel.count -1 ?  (tb.width - (titleModel.count) * tb.columnSpacing) / titleModel.count : (tb.width - (titleModel.count) * tb.columnSpacing) / titleModel.count + 1;
+                    implicitHeight: (tb.height - tbModel.rowCount ) / tbModel.rowCount;
+                    color: "transparent"
+                    FluRectangle{
+                        anchors.fill: parent
+                        //color: "green"
+                        radius: (column === 0 && row === tbModel.rowCount -1) ? [0,0,0,8] : ((column===titleModel.count -1 && row === tbModel.rowCount -1)  ? [0,0,8,0] : [0,0,0,0] )
+                        Text {
+                            text: display
+                            anchors.centerIn: parent
+                            font.pointSize: 10
+                        }
+                        Component.onCompleted: {
+                            console.log("cell row=%1 col=%2 data row count=%3 title col count=%4".arg(row).arg(column).arg(tbModel.row))
+                        }
+                    }
+                    TableView.editDelegate: TextField {
+                        anchors.margins: 0
+                        visible: r.isCellEditable(row, column);
+                        implicitHeight: parent.height
+                        implicitWidth: parent.width
+                        text: display
+                        font.pixelSize: 14
+                        topInset: 0
+                        bottomInset: 0
 
-                implicitWidth: column !== titleModel.count -1 ?  (tb.width - (titleModel.count) * tb.columnSpacing) / titleModel.count : (tb.width - (titleModel.count) * tb.columnSpacing) / titleModel.count + 1;
-                implicitHeight: (tb.height - tbModel.rowCount ) / tbModel.rowCount;
-                Text {
-                    text: display
-                    anchors.centerIn: parent
-                    font.pointSize: 10
+                        horizontalAlignment: TextInput.AlignHCenter
+                        verticalAlignment: TextInput.AlignVCenter
+                        onHeightChanged: {
+                        }
+
+                        TableView.onCommit: {
+                            display = text
+                            var index = TableView.view.index(column, row)
+                        }
+                        Component.onCompleted: {
+                            selectAll()
+                        }
+                    }
                 }
-                TableView.editDelegate: TextField {
-                    anchors.margins: 0
-                    visible: r.isCellEditable(row, column);
-                    implicitHeight: parent.height
-                    implicitWidth: parent.width
-                    text: display
-                    font.pixelSize: 14
-                    topInset: 0
-                    bottomInset: 0
-
-                    horizontalAlignment: TextInput.AlignHCenter
-                    verticalAlignment: TextInput.AlignVCenter
-                    onHeightChanged: {
-                    }
-
-                    TableView.onCommit: {
-                        display = text
-                        var index = TableView.view.index(column, row)
-                    }
-                    Component.onCompleted: {
-                        selectAll()
-                    }
+                Component.onCompleted: {
                 }
-            }
-            Component.onCompleted: {
             }
         }
     }
