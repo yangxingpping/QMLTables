@@ -11,7 +11,7 @@ Window {
         anchors.centerIn: parent
         width: parent.width * 2 /3
         height: parent.height * 2 / 3
-        Dat{
+        FillContainerTable{
             id: dat;
             anchors.top: parent.top
             anchors.left: parent.left
