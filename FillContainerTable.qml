@@ -125,7 +125,7 @@ Rectangle{
                 implicitWidth: r.cellsWidthRatio.length == 0 ? tb.width / r.titleModel.count : (tb.width * r.cellsWidthRatio[column] / r.cellsWidthRatio.reduce((accumulator, currentValue) => {
                                                                                         return accumulator + currentValue
                                                                                       },0));
-                implicitHeight: r.contentHeigth;
+                implicitHeight: (tb.height - tbModel.rowCount ) / tbModel.rowCount;
                 Text {
                     text: display
                     anchors.centerIn: parent
