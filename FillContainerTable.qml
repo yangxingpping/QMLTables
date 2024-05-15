@@ -15,6 +15,12 @@ Rectangle{
         }
     }
 
+    property int ww:0
+    property int hh:0
+    property int erow: 0
+    property int ecol: 0
+    property string editData
+
     property int hhHeigth: 30;
     property int contentHeigth: 36;
     property color headerBorderColor: "blue";
@@ -105,6 +111,46 @@ Rectangle{
         anchors.right: parent.right
         color: "blue"
     }
+    Component{
+        id: cpEdit
+        TextField{
+            id: tfEdit
+            verticalAlignment: Text.AlignVCenter
+            horizontalAlignment: Text.AlignHCenter
+            text: r.editData
+            width: r.ww
+            height: r.hh
+            onTextChanged: {
+                r.editData = text
+            }
+            onAccepted: {
+                console.log("accepted");
+                return true;
+            }
+        }
+    }
+
+    Component{
+        id: cpComb
+        ComboBox {
+            editable: false
+            width: r.ww
+            height: r.hh
+            model: ListModel {
+                id: model
+                ListElement { text: "Banana" }
+                ListElement { text: "Apple" }
+                ListElement { text: "Coconut" }
+            }
+            onCurrentIndexChanged:function() {
+                r.editData = model.get(currentIndex).text
+                tbModel.setData(tbModel.index(r.erow, r.ecol), "display", r.editData);
+            }
+            Component.onCompleted: {
+            }
+        }
+
+    }
     Rectangle{
         id: rectContent
         anchors.top: sep.bottom;
@@ -136,7 +182,6 @@ Rectangle{
                     color: "transparent"
                     FluRectangle{
                         anchors.fill: parent
-                        //color: "green"
                         radius: (column === 0 && row === tbModel.rowCount -1) ? [0,0,0,8] : ((column===titleModel.count -1 && row === tbModel.rowCount -1)  ? [0,0,8,0] : [0,0,0,0] )
                         Text {
                             text: display
@@ -144,30 +189,27 @@ Rectangle{
                             font.pointSize: 10
                         }
                         Component.onCompleted: {
-                            console.log("cell row=%1 col=%2 data row count=%3 title col count=%4".arg(row).arg(column).arg(tbModel.row))
                         }
                     }
-                    TableView.editDelegate: TextField {
-                        anchors.margins: 0
-                        visible: r.isCellEditable(row, column);
-                        implicitHeight: parent.height
-                        implicitWidth: parent.width
-                        text: display
-                        font.pixelSize: 14
-                        topInset: 0
-                        bottomInset: 0
+                    TableView.editDelegate: Loader {
 
-                        horizontalAlignment: TextInput.AlignHCenter
-                        verticalAlignment: TextInput.AlignVCenter
-                        onHeightChanged: {
+                        Component.onCompleted:{
+                            r.erow = row;
+                            r.ecol = column;
+                            r.ww = cell.width;
+                            r.hh = cell.height;
+                            r.editData = display
+                            if(row===0){
+                                sourceComponent = cpEdit;
+                            }
+                            else if(row===1){
+                                sourceComponent = cpComb;
+                            }
                         }
 
                         TableView.onCommit: {
-                            display = text
-                            var index = TableView.view.index(column, row)
-                        }
-                        Component.onCompleted: {
-                            selectAll()
+                            console.log("commit");
+                            display = r.editData
                         }
                     }
                 }
