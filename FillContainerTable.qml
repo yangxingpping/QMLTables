@@ -116,13 +116,17 @@ Rectangle{
         TextField{
             id: tfEdit
             verticalAlignment: Text.AlignVCenter
-            horizontalAlignment: Text.AlignHCenter
+            horizontalAlignment: Text.AlignLeft //Text.AlignHCenter
             text: r.editData
             width: r.ww
             height: r.hh
             onTextChanged: {
                 r.editData = text
             }
+            Component.onCompleted: {
+                forceActiveFocus()
+            }
+
             onAccepted: {
                 console.log("accepted");
                 return true;
