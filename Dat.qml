@@ -88,6 +88,26 @@ Rectangle{
         }
     }
 
+    function calcBodyRound(row, col){
+        var ret = [0,0,0,0];
+        if(row===0){
+            if(col===0){
+                ret[0] = 8;
+            }
+            if(col===tbModel.columnCount-1){
+                ret[1] = 8;
+            }
+        }
+        if(row==tbModel.rowCount-1){
+            if(col===0){
+                ret[3] = 8;
+            }
+            if(col===tbModel.columnCount-1){
+                ret[2] = 8;
+            }
+        }
+        return ret;
+    }
 
     Rectangle{
         id: sep
@@ -120,13 +140,14 @@ Rectangle{
                 policy: ScrollBar.AsNeeded
             }
             clip: true
-            delegate: Rectangle {
+            delegate: FluRectangle {
                 onHeightChanged: {
                 }
                 implicitWidth: r.cellsWidthRatio.length == 0 ? (tb.width -(r.titleModel.count - 1)) / r.titleModel.count : ((tb.width -(r.titleModel.count - 1)) * r.cellsWidthRatio[column] / r.cellsWidthRatio.reduce((accumulator, currentValue) => {
                                                                                         return accumulator + currentValue
                                                                                       },0));
                 implicitHeight: r.contentHeigth;
+                radius: r.calcBodyRound(row, column);
                 Text {
                     text: display
                     anchors.centerIn: parent
