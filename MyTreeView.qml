@@ -32,7 +32,7 @@ Rectangle {
                  implicitHeight: 40 // same as Button.qml
                  Rectangle{
                      anchors.fill: parent
-                     color: "yellow"
+                     color: delegateid.expanded ? "yellow" : "blue"
                  }
              }
 
