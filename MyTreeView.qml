@@ -16,6 +16,7 @@ Rectangle {
              }
          }
          interactive: true
+         boundsBehavior: TableView.StopAtBounds
          delegate: TreeViewDelegate {
              id: delegateid
              display: AbstractButton.TextBesideIcon
