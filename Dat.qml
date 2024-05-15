@@ -123,7 +123,7 @@ Rectangle{
             delegate: Rectangle {
                 onHeightChanged: {
                 }
-                implicitWidth: r.cellsWidthRatio.length == 0 ? tb.width / r.titleModel.count : (tb.width * r.cellsWidthRatio[column] / r.cellsWidthRatio.reduce((accumulator, currentValue) => {
+                implicitWidth: r.cellsWidthRatio.length == 0 ? (tb.width -(r.titleModel.count - 1)) / r.titleModel.count : ((tb.width -(r.titleModel.count - 1)) * r.cellsWidthRatio[column] / r.cellsWidthRatio.reduce((accumulator, currentValue) => {
                                                                                         return accumulator + currentValue
                                                                                       },0));
                 implicitHeight: r.contentHeigth;

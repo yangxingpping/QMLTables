@@ -17,7 +17,7 @@ Window {
             anchors.top: parent.top
             anchors.left: parent.left
             anchors.right: parent.right
-            cellsWidthRatio: [0.5, 1, 1, 1, 1]
+            cellsWidthRatio: [0.5, 2.0, 1.0, 1.0, 1.0]
             titleModel:  ListModel{
                 ListElement{
                     name: "Axis"
