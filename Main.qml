@@ -81,6 +81,16 @@ Window {
         width: parent.width * 2 /3
         height: parent.height * 2 / 3
         visible: true
+        MyTreeView{
+            anchors.fill: parent
+        }
+    }
+
+    Rectangle{
+        anchors.centerIn: parent
+        width: parent.width * 2 /3
+        height: parent.height * 2 / 3
+        visible: false
         FillContainerTable{
             id: dat2;
             anchors.fill: parent;
