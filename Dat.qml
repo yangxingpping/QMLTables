@@ -111,7 +111,8 @@ Rectangle{
             anchors.centerIn: parent
             width: parent.width - 2 * columnSpacing
             height: parent.height - 2 * rowSpacing
-            interactive: false
+            interactive: true
+            boundsBehavior: TableView.StopAtBounds
             rowSpacing: 1
             columnSpacing: 1
             model: tbModel
