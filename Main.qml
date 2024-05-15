@@ -8,7 +8,7 @@ Window {
     visible: true
     title: qsTr("Hello World")
     Rectangle{
-        visible: true;
+        visible: false;
         anchors.centerIn: parent
         width: parent.width * 2 /3
         height: parent.height * 2 / 3
@@ -80,7 +80,7 @@ Window {
         anchors.centerIn: parent
         width: parent.width * 2 /3
         height: parent.height * 2 / 3
-        visible: false
+        visible: true
         FillContainerTable{
             id: dat2;
             anchors.fill: parent;
