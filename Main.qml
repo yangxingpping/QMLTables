@@ -82,6 +82,7 @@ Window {
         height: parent.height * 2 / 3
         visible: true
         MyTreeView{
+            color: "lightgray"
             anchors.fill: parent
         }
     }

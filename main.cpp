@@ -1,6 +1,8 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 
+#include "MyTreeModel.h"
+
 int main(int argc, char *argv[])
 {
     QGuiApplication app(argc, argv);

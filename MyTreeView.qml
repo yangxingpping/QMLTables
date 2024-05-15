@@ -7,7 +7,12 @@
      TreeView {
          anchors.fill: parent
          // The model needs to be a QAbstractItemModel
-         // model: yourTreeModel
+         model: MyTreeModel {
+             id: tree_model
+             Component.onCompleted: {
+                 tree_model.resetItems();
+             }
+         }
 
          delegate: Item {
              id: treeDelegate
