@@ -1,6 +1,8 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Shapes 1.6
+import FluentUI
+
 Rectangle {
      id: r
      visible: true

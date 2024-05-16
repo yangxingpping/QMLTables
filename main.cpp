@@ -7,6 +7,8 @@ int main(int argc, char *argv[])
 {
     QGuiApplication app(argc, argv);
 
+    qmlRegisterType<MyTreeModel>("FluentUI", 1, 0, "MyTreeModel");
+
     QQmlApplicationEngine engine;
     QObject::connect(
         &engine,
